@@ -30,7 +30,11 @@ export default function ShoppingCart() {
 
   if (!cartItems) {
     return <div className="text-center p-6">Your Shopping cart is empty</div>;
-  }  
+  }
+
+  const orderPlaceHandler = () => {
+    return;
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-6 bg-white rounded-lg shadow-md mt-10">
@@ -80,7 +84,7 @@ export default function ShoppingCart() {
             <h3 className="text-lg font-semibold">
               Total: ${cartItems.totalPrice.toFixed(2)}
             </h3>
-            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            <button className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" onClick={orderPlaceHandler}>
               Proceed to Checkout
             </button>
           </div>

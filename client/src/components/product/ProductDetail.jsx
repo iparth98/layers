@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useParams, Link } from "react-router-dom";
+import { CartContext } from "../../context/CartContext";
 
 import { toast } from "react-toastify";
 import { getProduct } from "../../services/api/productsApi";
-import { updateCart as updateCartApi } from "../../services/api/cartApi";
 
 const ProductDetail = () => {
+  const { addToCartHandler } = useContext(CartContext);
   const [product, setProduct] = useState(null);
   const { productId } = useParams();
 
@@ -14,19 +15,17 @@ const ProductDetail = () => {
     try {
       const getProd = await getProduct(productId);
       setProduct(getProd);
-      console.log(product);
-      
     } catch (error) {
       console.error("Error fetching product:", error);
     }
   };
 
-  const addToCartHandler = async (productId, quantity) => {
-    const addToCart = await updateCartApi(productId, quantity);
-    if (addToCart.data.status === "success") {
-      toast.success(addToCart.data.message);
+  const addToCart = async (productId, quantity) => {
+    const { status, message } = await addToCartHandler(productId, quantity);
+    if (status === "success") {
+      toast.success(message);
     } else {
-      toast.error(addToCart.data.message);
+      toast.error(message);
     }
   };
 
@@ -54,7 +53,12 @@ const ProductDetail = () => {
         </h1>
         <h6 className="text-gray-600 text-xs pb-2">SKU: {product._id}</h6>
         <h6 className="text-gray-600 text-xs font-semibold pb-6">
-          Sold and shipped by <Link to={`/vendor/${product?.user_id?._id}`}><span className="underline italic text-blue-500">{product?.user_id?.fname} {product?.user_id?.lname}</span></Link>
+          Sold and shipped by{" "}
+          <Link to={`/vendor/${product?.user_id?._id}`}>
+            <span className="underline italic text-blue-500">
+              {product?.user_id?.fname} {product?.user_id?.lname}
+            </span>
+          </Link>
         </h6>
 
         {/* Price Section */}
@@ -79,7 +83,7 @@ const ProductDetail = () => {
         {/* Add to Cart Button */}
         <button
           className="bg-black text-white w-full h-14 uppercase mt-10 hover:bg-white hover:text-black hover:border border-black transition text-sm"
-          onClick={() => addToCartHandler(product._id, 1)}
+          onClick={() => addToCart(product._id, 1)}
         >
           Add to Cart
         </button>

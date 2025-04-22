@@ -39,3 +39,11 @@ export const addProduct = async (values) => {
   });
   return await response;
 };
+
+export const updateProduct = async (values, productId) => {
+  const response = fetchWrapper(`${url}api/products/${productId}`, {
+    method: "PUT",
+    body: values,
+  });
+  return await response;
+};

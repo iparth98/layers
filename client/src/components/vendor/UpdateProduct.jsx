@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import { toast } from "react-toastify";
 import { addProductValidationSchema } from "../../utils/validationSchema";
-// import { updateProduct as updateProductAPI } from "../../services/api/productsApi"; // Update API
+import { updateProduct as updateProductAPI } from "../../services/api/productsApi"; // Update API
 
 const UpdateProduct = () => {
   const location = useLocation();
@@ -19,7 +19,7 @@ const UpdateProduct = () => {
       price: product?.price || "",
       discountedPrice: product?.discountedPrice || "",
     },
-    enableReinitialize: true, // ✅ Ensures reinitialization when product data is received
+    enableReinitialize: true, // Ensures reinitialization when product data is received
     validationSchema: addProductValidationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
@@ -27,16 +27,17 @@ const UpdateProduct = () => {
       formData.append("description", values.description);
       formData.append("quantity", values.quantity);
       formData.append("price", values.price);
-      formData.append("discountedPrice", values.discountedPrice);
+      formData.append("discountedPrice", values.discountedPrice || 0);
 
       if (selectedImage) {
         formData.append("image", selectedImage);
       }
 
       try {
-        // const response = await updateProductAPI(product._id, formData); // ✅ Use update API
-        // toast.success(response.data.message);
-        navigate("/vendor/products"); // ✅ Redirect to product list after update
+        const response = await updateProductAPI(formData, product._id);
+        console.log(response);
+        toast.success(response.data.message);
+        navigate("/vendor/products");
       } catch (error) {
         console.error(error);
         toast.error("Something went wrong. Please try again.");

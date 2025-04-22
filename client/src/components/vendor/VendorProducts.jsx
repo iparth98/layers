@@ -1,13 +1,11 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getVendorProducts } from "../services/api/productsApi";
-import Product from "./product/Product";
+import { getVendorProducts } from "../../services/api/productsApi";
+import Product from "../product/Product";
 
-const Products = () => {
+const VendorProducts = () => {
   const [products, setPrducts] = useState([]);
   const [vendor, setVendor] = useState(null);
-  const [error, setError] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
 
   const { vendorId } = useParams();
 
@@ -20,9 +18,8 @@ const Products = () => {
         setVendor(products.getVendor);
       } catch (err) {
         console.log(err);
-        setError("Failed to load movies...");
       } finally {
-        setIsLoading(false);
+        console.log("finished");
       }
     };
 
@@ -50,4 +47,4 @@ const Products = () => {
     </div>
   );
 };
-export default Products;
+export default VendorProducts;

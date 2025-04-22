@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 
 const CartSchema = new mongoose.Schema(
   {
+    // Customer ID
     userId: {
       type: mongoose.Types.ObjectId,
       required: true,

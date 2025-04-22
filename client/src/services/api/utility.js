@@ -3,7 +3,7 @@ export const fetchWrapper = async (url, options = {}) => {
   const token = localStorage.getItem("token");
 
   const headers = {
-    // "Content-Type": "application/json",
+    "Content-Type": "application/json",
     ...options.headers,
   };
 

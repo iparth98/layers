@@ -1,5 +1,8 @@
-import React from "react";
+import { useContext } from "react";
+import { ShoppingCart } from "lucide-react";
 import { NavLink, useNavigate } from "react-router-dom";
+
+import { CartContext } from "../../context/CartContext";
 
 const navItems = [
   { label: "Sale", href: "#" },
@@ -10,6 +13,8 @@ const navItems = [
 ];
 
 const Navigation = () => {
+  const { cartCount } = useContext(CartContext);
+
   const navigate = useNavigate();
   const accessToken = localStorage.getItem("token") || false;
   const expiresAt = localStorage.getItem("expiration") || false;
@@ -28,9 +33,9 @@ const Navigation = () => {
         <div className="flex items-center justify-between">
           {/* Left side - Logo */}
           <div className="flex flex-shrink-0">
-            <a className="text-xl tracking-tight" href="/">
+            <NavLink className="text-xl tracking-tight" to="/">
               Layers
-            </a>
+            </NavLink>
             <ul className="hidden lg:flex ml-14 mt-1 space-x-10">
               {navItems.map((item, index) => (
                 <li key={index}>
@@ -44,10 +49,20 @@ const Navigation = () => {
           <div className="hidden lg:flex space-x-12 items-center">
             {isAuthenticated ? (
               <>
-                <button onClick={handleLogout} className="py-2 px-3">
-                  Logout
-                </button>
-                <NavLink to="/cart">cart</NavLink>
+                <div className="relative flex items-center space-x-4">
+                  <NavLink to="/cart" className="relative">
+                    <ShoppingCart className="w-6 h-6 text-gray-700 hover:text-black transition" />
+                    <span className="absolute -top-2 -right-2 flex items-center justify-center h-5 w-5 text-xs font-semibold bg-black text-white rounded-full shadow-md">
+                      {cartCount}
+                    </span>
+                  </NavLink>
+                  <button
+                    onClick={handleLogout}
+                    className="bg-gray-800 hover:bg-gray-700 text-white text-sm px-4 py-2 rounded-md transition"
+                  >
+                    Logout
+                  </button>
+                </div>
               </>
             ) : (
               <>

@@ -1,8 +1,9 @@
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import { CartProvider } from "./context/CartContext";
 import RootLayout from "./components/Layout/RootLayout";
 import ProductDetail from "./components/product/ProductDetail";
-import VendorProducts from "./components/VendorProducts";
+import VendorProducts from "./components/vendor/VendorProducts";
 import SignIn from "./components/auth/SignIn";
 import SignUp from "./components/auth/Signup";
 import Cart from "./pages/Cart";
@@ -24,7 +25,14 @@ function App() {
         style={{ fontSize: "12px" }}
       />
       <Routes>
-        <Route path="/" element={<RootLayout />}>
+        <Route
+          path="/"
+          element={
+            <CartProvider>
+              <RootLayout />
+            </CartProvider>
+          }
+        >
           <Route exact index element={<Home />} />
           <Route exact path="/product/:productId" element={<ProductDetail />} />
           <Route exact path="/vendor/:vendorId" element={<VendorProducts />} />
@@ -50,7 +58,10 @@ function App() {
           <Route element={<DashboardLayout />}>
             <Route index element={<h2>Vendor Dashboard</h2>} />
             <Route path="/vendor/product" element={<AddProduct />} />
-            <Route path="/vendor/product/:productId/edit" element={<UpdateProduct />} />
+            <Route
+              path="/vendor/product/:productId/edit"
+              element={<UpdateProduct />}
+            />
             <Route path="products" element={<ManageVendorProducts />} />
           </Route>
         </Route>

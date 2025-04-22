@@ -10,7 +10,7 @@ export const Product = (products) => {
             {/* Image Container */}
             <div className="h-96 w-full">
               <img
-                src={home_image_air_2}
+                src={product.image}
                 alt="Image Not Found"
                 className="w-full h-full object-cover"
               />

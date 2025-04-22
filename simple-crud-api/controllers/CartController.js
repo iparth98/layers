@@ -5,7 +5,9 @@ import User from "../models/users.model.js";
 export const AddToCartController = async (req, res) => {
   try {
     const { productId, quantity } = req.body;
-    const product = await Product.findById(productId);
+    console.log(req.body);
+    
+    const product = await Product.findById(productId.trim());
     if (!product) return res.status(404).json({ message: "Product not found" });
 
     const effectivePrice =

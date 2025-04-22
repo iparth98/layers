@@ -4,7 +4,7 @@ const url = import.meta.env.VITE_SERVER_URL;
 
 export const updateCart = async (productId, quantity) => {
   const product = { productId, quantity };
-
+  console.log(product);
   try {
     const response = await fetchWrapper(`${url}api/add-to-cart`, {
       method: "POST",
